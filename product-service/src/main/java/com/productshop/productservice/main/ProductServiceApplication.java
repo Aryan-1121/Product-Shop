@@ -1,4 +1,4 @@
-package com.productshop.productservice;
+package com.productshop.productservice.main;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
