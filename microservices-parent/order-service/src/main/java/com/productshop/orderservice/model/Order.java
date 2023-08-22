@@ -2,12 +2,7 @@ package com.productshop.orderservice.model;
 
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -16,11 +11,11 @@ import lombok.Data;
 public class Order {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String orderNumber;
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<OrderLineItems> orderLineItemsList;
 
 }
