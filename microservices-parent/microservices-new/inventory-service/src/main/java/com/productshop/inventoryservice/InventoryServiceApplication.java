@@ -1,18 +1,24 @@
 package com.productshop.inventoryservice;
 
+import com.netflix.discovery.EurekaClient;
 import com.productshop.inventoryservice.model.Inventory;
 import com.productshop.inventoryservice.repository.InventoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+//import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 
 
 @SpringBootApplication
-@EnableEurekaClient
+//@EnableEurekaClien					// for some reason this annotation is not getting picked up from dependency, hence using eureka client via Autowired
 public class InventoryServiceApplication {
 
+	@Autowired
+	@Lazy
+	private EurekaClient eurekaClient;
 	public static void main(String[] args) {
 		SpringApplication.run(InventoryServiceApplication.class, args);
 	}
