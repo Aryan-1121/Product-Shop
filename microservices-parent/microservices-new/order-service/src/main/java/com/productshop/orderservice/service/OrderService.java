@@ -24,7 +24,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     @Autowired
-    private final WebClient webClient;
+    private final WebClient.Builder webClientBuilder;
     public void placeOrder(OrderRequest orderRequest){
         Order order = new Order();
         order.setOrderNumber(UUID.randomUUID().toString());
@@ -40,14 +40,14 @@ public class OrderService {
                 .toList();
 
         //call inventory  service  to check if order is present in stock
-        InventoryResponse[] inventoryResponseArray= webClient.get()
-                .uri("http://localhost:8082/api/inventory",
+        InventoryResponse[] inventoryResponseArray= webClientBuilder.build().get()
+                .uri("http://inventory-service/api/inventory",
                         uriBuilder -> uriBuilder.queryParam("skuCode",skuCodes).build())
                         .retrieve()
                                 .bodyToMono(InventoryResponse[].class)
                                         .block();               //this block will allow it for synchrounous call  otherwise bydefault it was supposed to be Asynchronous call
         assert inventoryResponseArray != null;
-        System.out.println("/n---------------------------/n"+Arrays.stream(inventoryResponseArray).toList());
+        System.out.println("/n---------------------------\n"+Arrays.stream(inventoryResponseArray).toList());
         System.out.println();
         boolean allProductsInStock= Arrays.stream(inventoryResponseArray)
                 .allMatch(InventoryResponse::isInStock);
