@@ -47,8 +47,7 @@ public class OrderService {
                                 .bodyToMono(InventoryResponse[].class)
                                         .block();               //this block will allow it for synchrounous call  otherwise bydefault it was supposed to be Asynchronous call
         assert inventoryResponseArray != null;
-        System.out.println("/n---------------------------\n"+Arrays.stream(inventoryResponseArray).toList());
-        System.out.println();
+        System.out.println("\n---------------------------\n"+Arrays.stream(inventoryResponseArray).toList());
         boolean allProductsInStock= Arrays.stream(inventoryResponseArray)
                 .allMatch(InventoryResponse::isInStock);
 
