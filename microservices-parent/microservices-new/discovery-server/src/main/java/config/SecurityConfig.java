@@ -13,11 +13,16 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Value("${eureka.username}")
+    private String username;                //from application.properties file
 
+    @Value("${eureka.password}")
+    private String password;
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder.inMemoryAuthentication()
-                .withUser("eureka").password("password")
+                .passwordEncoder(NoOpPasswordEncoder.getInstance())
+                .withUser(username).password(password)
                 .authorities("USER");
     }
 
