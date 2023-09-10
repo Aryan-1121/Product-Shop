@@ -45,7 +45,7 @@ public class OrderService {
                         uriBuilder -> uriBuilder.queryParam("skuCode",skuCodes).build())
                         .retrieve()
                                 .bodyToMono(InventoryResponse[].class)
-                                        .block();               //this block will allow it for synchrounous call  otherwise bydefault it was supposed to be Asynchronous call
+                                        .block();               //this block will allow it for synchronous call  otherwise byvdefault it(webClientBuilder) was supposed to be Asynchronous call
         assert inventoryResponseArray != null;
         System.out.println("\n---------------------------\n"+Arrays.stream(inventoryResponseArray).toList());
         boolean allProductsInStock= Arrays.stream(inventoryResponseArray)
