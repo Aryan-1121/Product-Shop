@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Lazy;
 //import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
-//@EnableEurekaClien					// for some reason this annotation is not getting picked up from dependency, hence using eureka client via Autowired
+//@EnableEurekaClient					// for some reason this annotation is not getting picked up from dependency, hence using eureka client via Autowired
 
 public class ProductServiceApplication {
 

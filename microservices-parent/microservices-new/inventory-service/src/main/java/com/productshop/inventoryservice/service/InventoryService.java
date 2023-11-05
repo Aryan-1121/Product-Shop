@@ -20,9 +20,9 @@ public class InventoryService {
     @Transactional(readOnly = true)
     @SneakyThrows
     public List<InventoryResponse> isInStock(List<String> skuCode) {
-        log.info("Simulated wait started ...");
+        log.info(" wait started ...");
         Thread.sleep(7000);
-        log.info("Simulated wait ended ...");
+        log.info(" wait ended ...");
 
 
         return inventoryRepository.findBySkuCodeIn(skuCode).stream()
