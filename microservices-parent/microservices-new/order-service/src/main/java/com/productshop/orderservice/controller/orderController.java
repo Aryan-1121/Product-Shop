@@ -17,13 +17,13 @@ import java.util.concurrent.CompletableFuture;
 public class orderController {
 
     private final OrderService orderService;
-//    @PostMapping
-//    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
 //    @CircuitBreaker(name = "inventory", fallbackMethod = "fallbackMethod")
-//    public String placeOrder(@RequestBody OrderRequest orderRequest){
-//        orderService.placeOrder(orderRequest);
-//        return "Order placed Successfully";
-//    }
+    public String placeOrder(@RequestBody OrderRequest orderRequest){
+        orderService.placeOrder(orderRequest);
+        return "Order placed Successfully";
+    }
 //
 //
 //    // using same returntype as original method -placeOrder (String) + same Method signature
@@ -36,22 +36,22 @@ public class orderController {
 //    timeout needs different method signature of type CompletableFuture<>
 
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    @CircuitBreaker(name = "inventory", fallbackMethod = "fallbackMethod")
-    @TimeLimiter(name = "inventory")
-    @Retry(name = "inventory")
-    public CompletableFuture<String> placeOrder(@RequestBody OrderRequest orderRequest){
-        //this placeOrder method will now execute in different thread
-        // when time-limit is reached(3sec as in properties file) then timeout exception will be thrown
-//        TODO -> catch timeout exception and throw proper error message
-        return CompletableFuture.supplyAsync(()->orderService.placeOrder(orderRequest));
-
-    }
-
-
-    // using same returntype as original method -placeOrder (String) + same Method signature
-    public CompletableFuture<String> fallbackMethod(OrderRequest orderRequest,RuntimeException runtimeException){
-        return  CompletableFuture.supplyAsync(()->"OOPS !! something went wrong, pls try after some time ");
-    }
+//    @PostMapping
+//    @ResponseStatus(HttpStatus.CREATED)
+//    @CircuitBreaker(name = "inventory", fallbackMethod = "fallbackMethod")
+//    @TimeLimiter(name = "inventory")
+//    @Retry(name = "inventory")
+//    public CompletableFuture<String> placeOrder(@RequestBody OrderRequest orderRequest){
+//        //this placeOrder method will now execute in different thread
+//        // when time-limit is reached(3sec as in properties file) then timeout exception will be thrown
+////        TODO -> catch timeout exception and throw proper error message
+//        return CompletableFuture.supplyAsync(()->orderService.placeOrder(orderRequest));
+//
+//    }
+//
+//
+//    // using same returntype as original method -placeOrder (String) + same Method signature
+//    public CompletableFuture<String> fallbackMethod(OrderRequest orderRequest,RuntimeException runtimeException){
+//        return  CompletableFuture.supplyAsync(()->"OOPS !! something went wrong, pls try after some time ");
+//    }
 }

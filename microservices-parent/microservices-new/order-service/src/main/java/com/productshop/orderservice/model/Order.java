@@ -15,7 +15,7 @@ public class Order {
 	private Long id;
 	private String orderNumber;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL)								// one Order can have multiple OrderLineItems
 	private List<OrderLineItems> orderLineItemsList;
 
 }

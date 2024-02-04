@@ -12,9 +12,9 @@ import org.springframework.context.annotation.Lazy;
 //@EnableEurekaClien					// for some reason this annotation is not getting picked up from dependency, hence using eureka client via Autowired
 public class OrderServiceApplication {
 
-	@Autowired
-	@Lazy
-	private EurekaClient eurekaClient;
+//	@Autowired
+//	@Lazy
+//	private EurekaClient eurekaClient;
 	public static void main(String[] args) {
 		SpringApplication.run(OrderServiceApplication.class, args);
 	}

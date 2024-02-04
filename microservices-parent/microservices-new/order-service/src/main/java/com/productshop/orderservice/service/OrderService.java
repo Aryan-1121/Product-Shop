@@ -2,6 +2,7 @@ package com.productshop.orderservice.service;
 
 
 import com.productshop.orderservice.dto.InventoryResponse;
+//import com.productshop.inventoryservice.dto.InventoryResponse;
 import com.productshop.orderservice.dto.OrderLineItemsDto;
 import com.productshop.orderservice.dto.OrderRequest;
 import com.productshop.orderservice.model.Order;
@@ -30,6 +31,7 @@ public class OrderService {
         order.setOrderNumber(UUID.randomUUID().toString());
         List<OrderLineItems> orderLineItems=  orderRequest.getOrderLineItemsDtoList()
                 .stream()
+//                .map(orderLineItemsDto -> mapToDto(orderLineItemsDto)).toList();
                 .map(this::mapToDto)
                 .toList();
 
@@ -39,10 +41,10 @@ public class OrderService {
                 .map(OrderLineItems::getSkuCode)
                 .toList();
 
-        //call inventory  service  to check if order is present in stock
+//        //call inventory  service  to check if order is present in stock
         InventoryResponse[] inventoryResponseArray= webClientBuilder.build().get()
                 .uri("http://inventory-service/api/inventory",
-                        uriBuilder -> uriBuilder.queryParam("skuCode",skuCodes).build())
+                        uriBuilder -> uriBuilder.queryParam("skuCode",skuCodes).build())    // this will make our uri look like this -> http://localhost:8082/api/inventory?skucode=iPhone_13&skuCode=iPhone_14
                         .retrieve()
                                 .bodyToMono(InventoryResponse[].class)
                                         .block();               //this block will allow it for synchronous call  otherwise byvdefault it(webClientBuilder) was supposed to be Asynchronous call
@@ -60,6 +62,9 @@ public class OrderService {
         else
             throw new IllegalArgumentException("out of stock");
 
+//
+//        orderRepository.save(order);
+//        return "Order placed Successfully";
     }
 
     private OrderLineItems mapToDto(OrderLineItemsDto orderLineItemsDto) {

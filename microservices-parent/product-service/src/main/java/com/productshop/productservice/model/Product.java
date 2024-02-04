@@ -10,7 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Document(value = "product")
+@Document(value = "product")		// to make it a mongoDb document
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
