@@ -29,6 +29,8 @@ public class OrderService {
     public String placeOrder(OrderRequest orderRequest){
         Order order = new Order();
         order.setOrderNumber(UUID.randomUUID().toString());
+//        System.out.println("from order service  -> order  = "+ order);
+
         List<OrderLineItems> orderLineItems=  orderRequest.getOrderLineItemsDtoList()
                 .stream()
 //                .map(orderLineItemsDto -> mapToDto(orderLineItemsDto)).toList();
@@ -36,20 +38,23 @@ public class OrderService {
                 .toList();
 
         order.setOrderLineItemsList(orderLineItems);
+//        System.out.println("AGAIN from order service  -> order  = "+ order);
 
         List<String> skuCodes= order.getOrderLineItemsList().stream()
                 .map(OrderLineItems::getSkuCode)
                 .toList();
+//        System.out.println("AGAIN from order service  -> SKUCODES   = "+ skuCodes);
 
 //        //call inventory  service  to check if order is present in stock
         InventoryResponse[] inventoryResponseArray= webClientBuilder.build().get()
                 .uri("http://inventory-service/api/inventory",
-                        uriBuilder -> uriBuilder.queryParam("skuCode",skuCodes).build())    // this will make our uri look like this -> http://localhost:8082/api/inventory?skucode=iPhone_13&skuCode=iPhone_14
+                        uriBuilder -> uriBuilder.queryParam("skuCodes", skuCodes).build())    // this will make our uri look like this -> http://localhost:8082/api/inventory?skuCode=iPhone_13&skuCode=iPhone_14
                         .retrieve()
-                                .bodyToMono(InventoryResponse[].class)
-                                        .block();               //this block will allow it for synchronous call  otherwise byvdefault it(webClientBuilder) was supposed to be Asynchronous call
-        assert inventoryResponseArray != null;
-        System.out.println("\n---------------------------\n"+Arrays.stream(inventoryResponseArray).toList());
+                            .bodyToMono(InventoryResponse[].class)
+                                .block();               //this block will allow it for synchronous call  otherwise byvdefault it(webClientBuilder) was supposed to be Asynchronous call
+//        System.out.println("\n-------####################--------------------\n"+Arrays.stream(inventoryResponseArray).toList());
+
+
         boolean allProductsInStock= Arrays.stream(inventoryResponseArray)
                 .allMatch(InventoryResponse::isInStock);
 

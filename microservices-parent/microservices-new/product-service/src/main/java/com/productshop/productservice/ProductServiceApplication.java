@@ -10,12 +10,12 @@ import org.springframework.context.annotation.Lazy;
 
 @SpringBootApplication
 //@EnableEurekaClient					// for some reason this annotation is not getting picked up from dependency, hence using eureka client via Autowired
-//@EnableDiscoveryClient				// works as eureka client only  (same thing)
+@EnableDiscoveryClient				// works as eureka client only  (same thing)
 public class ProductServiceApplication {
 
-//	@Autowired
-//	@Lazy
-//	private EurekaClient eurekaClient;
+	@Autowired
+	@Lazy
+	private EurekaClient eurekaClient;
 	public static void main(String[] args) {
 		SpringApplication.run(ProductServiceApplication.class, args);
 	}
