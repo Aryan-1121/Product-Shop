@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
-@RequiredArgsConstructor				// in place of constructor Injection of ProductRepository
+@RequiredArgsConstructor				// in place of constructor Injection of ProductRepository (we could have used @Autowired then we won't need to use this, since autowire make sure that the dependency injection happens behind the scene(abstracted from us)
 @Slf4j
 public class ProductService {
 	
@@ -27,6 +27,7 @@ public class ProductService {
 //	}
 
 	public void createProduct(ProductRequest productRequest) {
+//		since now, we need to save the coming data into db so we need to change the dto to actual model
 //		now we need to convert our ProductRequest DTO to Product POJO to save in our DB
 		System.out.println("in createProduct - service");
 		Product product = Product.builder()
@@ -43,7 +44,7 @@ public class ProductService {
 	
 	public List<ProductResponse> getAllProducts(){
 		List<Product> products=  productRepository.findAll();			// we will recieve result of type Product from DB
-		return products.stream().map(product -> mapToProductResponse(product)).toList();					// we need to convert Product into ProductResponse DTO to use it for further uses
+		return products.stream().map(product -> mapToProductResponse(product)).toList();					// and we need to convert Product into ProductResponse DTO to use it for further uses
 
 //		return products.stream().map(this::mapToProductResponse).toList();				// this can be used to as a method refrence 
 	}

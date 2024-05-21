@@ -17,8 +17,8 @@ import com.productshop.productservice.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
 
-@RestController					// since we are exposing rest api
-@RequestMapping("/api/product")
+@RestController					//@RestController (Controller + responseBody) since we are exposing rest api
+@RequestMapping("/api/product")			// default url prefix for this microservice
 @RequiredArgsConstructor				//for final ProductService
 public class ProductController {
 	

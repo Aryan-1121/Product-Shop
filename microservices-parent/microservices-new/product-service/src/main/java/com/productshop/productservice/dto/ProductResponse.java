@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
+// retrieving data from db (response)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

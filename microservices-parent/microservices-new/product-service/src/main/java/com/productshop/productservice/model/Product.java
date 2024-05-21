@@ -10,7 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Document(value = "product")		// TO tell our Springboot project that this POJO is MongoDB document
+@Document(value = "product")		//@Document -> TO tell our Springboot project that this POJO is MongoDB document
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,6 +28,6 @@ public class Product {
 
 /*
 //	its a good practise to make DTO (seprate model entities and DTOs)
-	ideally we should not expose model entities to outside world bcs if in the fuuture if I added some fields in model entity important to buisness logic but i don't want to show it to outside world
+	ideally we should not expose model entities to outside world bcs if in the future if I added some fields in model entity important to business logic but i don't want to show it to outside world
 
  */
