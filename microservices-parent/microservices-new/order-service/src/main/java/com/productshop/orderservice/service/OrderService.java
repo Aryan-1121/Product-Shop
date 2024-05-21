@@ -26,11 +26,12 @@ public class OrderService {
     private final OrderRepository orderRepository;
     @Autowired
     private final WebClient.Builder webClientBuilder;
-    public String placeOrder(OrderRequest orderRequest){
+    public String placeOrder(OrderRequest orderRequest){                // OrderRequest have -> List<OrderLineItemsDto> orderLineItemsDtoList
         Order order = new Order();
         order.setOrderNumber(UUID.randomUUID().toString());
 //        System.out.println("from order service  -> order  = "+ order);
 
+//        as of now we have dtoList of orderlineItems form orderRequest(also a dto), so we need to convert it into actual model (order) before saving to db
         List<OrderLineItems> orderLineItems=  orderRequest.getOrderLineItemsDtoList()
                 .stream()
 //                .map(orderLineItemsDto -> mapToDto(orderLineItemsDto)).toList();
@@ -51,7 +52,7 @@ public class OrderService {
                         uriBuilder -> uriBuilder.queryParam("skuCodes", skuCodes).build())    // this will make our uri look like this -> http://localhost:8082/api/inventory?skuCode=iPhone_13&skuCode=iPhone_14
                         .retrieve()
                             .bodyToMono(InventoryResponse[].class)
-                                .block();               //this block will allow it for synchronous call  otherwise byvdefault it(webClientBuilder) was supposed to be Asynchronous call
+                                .block();               //this block will allow it for synchronous call  otherwise by default it(webClientBuilder) was supposed to be Asynchronous call
 //        System.out.println("\n-------####################--------------------\n"+Arrays.stream(inventoryResponseArray).toList());
 
 
@@ -62,7 +63,7 @@ public class OrderService {
             throw new IllegalArgumentException("Such Item is not present");
         else if(allProductsInStock){
             orderRepository.save(order);
-            return "Order placed Successfully";
+            return "Order placed Successfully !!";
         }
         else
             throw new IllegalArgumentException("out of stock");

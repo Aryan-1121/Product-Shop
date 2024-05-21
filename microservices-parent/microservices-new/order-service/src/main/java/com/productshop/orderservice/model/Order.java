@@ -13,9 +13,9 @@ public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String orderNumber;
+	private String orderNumber;						// will be setting random no. in service layer
 	
 	@OneToMany(cascade = CascadeType.ALL)								// one Order can have multiple OrderLineItems
-	private List<OrderLineItems> orderLineItemsList;
+	private List<OrderLineItems> orderLineItemsList;			// will set this in service layer by getting it from dto
 
 }
