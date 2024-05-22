@@ -19,6 +19,8 @@ public class InventoryController {
     //http://localhost:8082/api/inventory/iPhone_13,iPhone_14
     //http://localhost:8082/api/inventory?skucode=iPhone_13&skuCode=iPhone_14
 
+    // TODO: receive skuCode along with the qty ordered, and then in inventory service check if that much qty is available in inventory or not
+
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<InventoryResponse> isInStock(@RequestParam List<String> skuCodes){              // skuCodes=iPhone_13&skuCodes=iPhone_14

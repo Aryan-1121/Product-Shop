@@ -10,7 +10,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class WebClientConfig {
 
     @Bean
-    @LoadBalanced
+    @LoadBalanced                   // since it may find multiple instances of inventory-service
     public WebClient.Builder webClientBuilder(){
         return WebClient.builder();
     }

@@ -45,13 +45,13 @@ public class OrderService {
         List<String> skuCodes= order.getOrderLineItemsList().stream()
                 .map(OrderLineItems::getSkuCode)
                 .toList();
-//        System.out.println("AGAIN from order service  -> SKUCODES   = "+ skuCodes);
 
 
 
 
 
 //        //call inventory  service  to check if order is present in stock (if order is in stock then place order -> save to db ELSE throw some sort of error saying product not available )
+// TODO: send qty along with skuCode, so that it can be checked in inventory if that much qty is present or not
 
         InventoryResponse[] inventoryResponseArray= webClientBuilder.build().get()
                 .uri("http://inventory-service/api/inventory",
@@ -60,7 +60,6 @@ public class OrderService {
                             .bodyToMono(InventoryResponse[].class)          // to read/parse data from webClient we use bodyToMono
                                 .block();               //this block will allow it for synchronous call  otherwise by default it(webClientBuilder) was supposed to be Asynchronous call
 //        System.out.println("\n-------####################--------------------\n"+Arrays.stream(inventoryResponseArray).toList());
-
 
         boolean isAllProductsInStock= Arrays.stream(inventoryResponseArray)
                 .allMatch(InventoryResponse::isInStock);
@@ -89,7 +88,7 @@ public class OrderService {
     private OrderLineItems mapToDto(OrderLineItemsDto orderLineItemsDto) {
         OrderLineItems orderLineItems = new OrderLineItems();
 
-        orderLineItems.setId(orderLineItemsDto.getId());
+//        orderLineItems.setId(orderLineItemsDto.getId());
         orderLineItems.setQuantity(orderLineItemsDto.getQuantity());
         orderLineItems.setPrice(orderLineItemsDto.getPrice());
         orderLineItems.setSkuCode(orderLineItemsDto.getSkuCode());
