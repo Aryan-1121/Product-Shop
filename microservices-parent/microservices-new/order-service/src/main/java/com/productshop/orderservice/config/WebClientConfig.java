@@ -5,7 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
 
-@Configuration
+//first need to add webflux dependency in pom
+@Configuration                      // since bean is to be instantiated
 public class WebClientConfig {
 
     @Bean

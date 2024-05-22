@@ -41,37 +41,50 @@ public class OrderService {
         order.setOrderLineItemsList(orderLineItems);
 //        System.out.println("AGAIN from order service  -> order  = "+ order);
 
+        // first get all the sku-codes from n no. of orderLineItems into a list and check if all the skuCodes are present in the Inventory of not (we have an end-point in InveteryServiceController that takes list of sku-codes and returns the list of InventoryResponse object which have 2 data fields (String sku-code and boolean isSkuInStock)
         List<String> skuCodes= order.getOrderLineItemsList().stream()
                 .map(OrderLineItems::getSkuCode)
                 .toList();
 //        System.out.println("AGAIN from order service  -> SKUCODES   = "+ skuCodes);
 
-//        //call inventory  service  to check if order is present in stock
+
+
+
+
+//        //call inventory  service  to check if order is present in stock (if order is in stock then place order -> save to db ELSE throw some sort of error saying product not available )
+
         InventoryResponse[] inventoryResponseArray= webClientBuilder.build().get()
                 .uri("http://inventory-service/api/inventory",
                         uriBuilder -> uriBuilder.queryParam("skuCodes", skuCodes).build())    // this will make our uri look like this -> http://localhost:8082/api/inventory?skuCode=iPhone_13&skuCode=iPhone_14
                         .retrieve()
-                            .bodyToMono(InventoryResponse[].class)
+                            .bodyToMono(InventoryResponse[].class)          // to read/parse data from webClient we use bodyToMono
                                 .block();               //this block will allow it for synchronous call  otherwise by default it(webClientBuilder) was supposed to be Asynchronous call
 //        System.out.println("\n-------####################--------------------\n"+Arrays.stream(inventoryResponseArray).toList());
 
 
-        boolean allProductsInStock= Arrays.stream(inventoryResponseArray)
+        boolean isAllProductsInStock= Arrays.stream(inventoryResponseArray)
                 .allMatch(InventoryResponse::isInStock);
-
+//inventoryResponse -> inventoryResponse.isInStock
         if(inventoryResponseArray.length < skuCodes.size())
             throw new IllegalArgumentException("Such Item is not present");
-        else if(allProductsInStock){
+        else if(isAllProductsInStock){
             orderRepository.save(order);
             return "Order placed Successfully !!";
         }
-        else
-            throw new IllegalArgumentException("out of stock");
+        else{
+//            System.out.println("out of stock ");
+            return "out of stock";
+        }
 
 //
 //        orderRepository.save(order);
 //        return "Order placed Successfully";
     }
+
+
+
+
+
 
     private OrderLineItems mapToDto(OrderLineItemsDto orderLineItemsDto) {
         OrderLineItems orderLineItems = new OrderLineItems();
