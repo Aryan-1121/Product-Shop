@@ -1,5 +1,6 @@
 //package config;
 //
+//            removing keycloak oath2 implementation as it is making project more complex due to dependencies and docker image
 //
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;

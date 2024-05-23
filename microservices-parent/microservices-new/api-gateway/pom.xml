@@ -25,6 +25,7 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
+<!--        removing keycloak oath2 implementation as it is making project more complex due to dependencies and docker image  -->
 <!--        <dependency>-->
 <!--            <groupId>org.springframework.boot</groupId>-->
 <!--            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>-->
