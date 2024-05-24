@@ -41,8 +41,8 @@ public class orderController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @CircuitBreaker(name = "inventory", fallbackMethod = "fallbackMethod")
-    @TimeLimiter(name = "inventory")
-    @Retry(name = "inventory")
+    @TimeLimiter(name = "inventory")        // this will make an async call(this call will go in new Thread)  therefore we need to change the method dataType to CompletableFuture<T>
+//    @Retry(name = "inventory")
     public CompletableFuture<String> placeOrder(@RequestBody OrderRequest orderRequest){
         //this placeOrder method will now execute in different thread  (async call)
         // when time-limit is reached(3sec as in properties file) then timeout exception will be thrown
@@ -56,6 +56,7 @@ public class orderController {
 
     // using same return type as original method -placeOrder (String) + same Method signature
     public CompletableFuture<String> fallbackMethod(OrderRequest orderRequest,RuntimeException runtimeException){
+        System.out.println("exception in orderController fallback method" +runtimeException);
         return  CompletableFuture.supplyAsync(()->"OOPS !! something went wrong, pls try after some time ");
     }
 }

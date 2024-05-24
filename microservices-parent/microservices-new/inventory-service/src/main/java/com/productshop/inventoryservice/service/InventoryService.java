@@ -21,10 +21,10 @@ public class InventoryService {
     @SneakyThrows
     public List<InventoryResponse> isInStock(List<String> skuCodes) {
 
-//        // creating timeout for order service
-//        log.info(" wait started ...");
-//        Thread.sleep(3500);
-//        log.info(" wait ended ...");
+        // creating/simulating timeout for order service
+        log.info(" wait started ...");
+        Thread.sleep(3500);
+        log.info(" wait ended ...");
 
         return inventoryRepository.findBySkuCodeIn(skuCodes).stream()
                 .map(inventory ->
