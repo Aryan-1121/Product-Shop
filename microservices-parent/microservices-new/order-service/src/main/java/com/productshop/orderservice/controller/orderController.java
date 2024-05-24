@@ -42,7 +42,7 @@ public class orderController {
     @ResponseStatus(HttpStatus.CREATED)
     @CircuitBreaker(name = "inventory", fallbackMethod = "fallbackMethod")
     @TimeLimiter(name = "inventory")        // this will make an async call(this call will go in new Thread)  therefore we need to change the method dataType to CompletableFuture<T>
-//    @Retry(name = "inventory")
+    @Retry(name = "inventory")
     public CompletableFuture<String> placeOrder(@RequestBody OrderRequest orderRequest){
         //this placeOrder method will now execute in different thread  (async call)
         // when time-limit is reached(3sec as in properties file) then timeout exception will be thrown
