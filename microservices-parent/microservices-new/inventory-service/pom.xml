@@ -64,12 +64,6 @@
 			<artifactId>micrometer-tracing-bridge-brave</artifactId>
 		</dependency>
 
-
-		<!--        ZIPKIN-->
-		<!--        <dependency>-->
-		<!--            <groupId>org.springframework.cloud</groupId>-->
-		<!--            <artifactId>spring-cloud-sleuth-zipkin-legacy</artifactId>-->
-		<!--        </dependency>-->
 		<dependency>
 			<groupId>io.zipkin.reporter2</groupId>
 			<artifactId>zipkin-reporter-brave</artifactId>
