@@ -36,18 +36,32 @@
 <!--        </dependency>-->
 
 <!--        DISTRIBUTED TRACING -->
-<!--        SLUETH-->
+
+<!--        SLUETH -> for actual distributed tracing  -->
 <!--        <dependency>-->
 <!--            <groupId>org.springframework.cloud</groupId>-->
 <!--            <artifactId>spring-cloud-starter-sleuth</artifactId>-->
 <!--        </dependency>-->
 
-<!--        ZIPKIN-->
+<!--        slueth is not maintained anymore from year 2022 (version 3.1) and is shifted to io.micrometer  -->
 
+
+<!--        micrometer for monitoring -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+
+
+<!--        ZIPKIN-->
 <!--        <dependency>-->
 <!--            <groupId>org.springframework.cloud</groupId>-->
 <!--            <artifactId>spring-cloud-sleuth-zipkin-legacy</artifactId>-->
 <!--        </dependency>-->
+        <dependency>
+            <groupId>io.zipkin.reporter2</groupId>
+            <artifactId>zipkin-reporter-brave</artifactId>
+        </dependency>
 
 
     </dependencies>
