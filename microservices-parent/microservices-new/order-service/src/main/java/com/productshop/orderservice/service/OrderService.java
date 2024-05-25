@@ -5,11 +5,13 @@ import com.productshop.orderservice.dto.InventoryResponse;
 //import com.productshop.inventoryservice.dto.InventoryResponse;
 import com.productshop.orderservice.dto.OrderLineItemsDto;
 import com.productshop.orderservice.dto.OrderRequest;
+import com.productshop.orderservice.event.OrderPlacedEvent;
 import com.productshop.orderservice.model.Order;
 import com.productshop.orderservice.model.OrderLineItems;
 import com.productshop.orderservice.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -26,6 +28,10 @@ public class OrderService {
     private final OrderRepository orderRepository;
     @Autowired
     private final WebClient.Builder webClientBuilder;
+
+    //    injecting kafka template so that we can push/publish orderNo. to topic after saving it to db and before returning from the method
+    private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
+
     public String placeOrder(OrderRequest orderRequest){                // OrderRequest have -> List<OrderLineItemsDto> orderLineItemsDtoList
         Order order = new Order();
         order.setOrderNumber(UUID.randomUUID().toString());
@@ -68,6 +74,7 @@ public class OrderService {
             throw new IllegalArgumentException("Such Item is not present");
         else if(isAllProductsInStock){
             orderRepository.save(order);
+            kafkaTemplate.send("notification-topic", new OrderPlacedEvent(order.getOrderNumber()));
             return "Order placed Successfully !!";
         }
         else{
