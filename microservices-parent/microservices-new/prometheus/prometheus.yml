@@ -14,7 +14,8 @@ scrape_configs:
   - job_name: 'order_service'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['order-service:9090']
+#      - targets: ['order-service:8081']      #in case i had made docker container with this name
+      - targets: ['localhost:8081']
         labels:
           application: 'Order Service Application'
   - job_name: 'inventory_service'
