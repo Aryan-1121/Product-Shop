@@ -29,3 +29,5 @@ scrape_configs:
       - targets: ['notification-service:9090']
         labels:
           application: 'Notification Service Application'
+
+#          CAN ADD OTHER SERVICE IF REQUIRED
