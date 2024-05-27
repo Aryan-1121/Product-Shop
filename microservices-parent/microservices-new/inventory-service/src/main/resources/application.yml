@@ -40,5 +40,8 @@ management:
   tracing:
     sampling:
       probability: 1.0
-
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
 
